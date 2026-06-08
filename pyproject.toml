@@ -1,0 +1,79 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mneme-memory"
+version = "0.1.0"
+description = "Agent memory that learns, forgets, believes, and compounds. Local-first. Free forever."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "Mneme Contributors" }
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "numpy>=1.24",
+    "click>=8.1",
+    "rich>=13.0",
+]
+
+[project.optional-dependencies]
+embed = ["sentence-transformers>=3.0"]
+mcp = ["mcp>=1.0", "starlette>=0.37", "uvicorn>=0.29"]
+qdrant = ["qdrant-client>=1.9"]
+openai = ["openai>=1.0"]
+ollama = ["ollama>=0.2"]
+all = [
+    "sentence-transformers>=3.0",
+    "mcp>=1.0",
+    "starlette>=0.37",
+    "uvicorn>=0.29",
+    "qdrant-client>=1.9",
+    "openai>=1.0",
+    "ollama>=0.2",
+]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+    "ruff>=0.4",
+]
+
+[project.scripts]
+mneme = "mneme.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/mneme-framework/mneme"
+Documentation = "https://mneme.dev"
+Issues = "https://github.com/mneme-framework/mneme/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mneme"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+# Exclude research/deploy files from the wheel
+[tool.hatch.build]
+exclude = [
+    "RESEARCH.md",
+    "docs",
+    "examples",
+    ".github",
+]
